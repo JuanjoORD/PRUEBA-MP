@@ -20,13 +20,13 @@ function App(props) {
         return (
           <Grid item xs={4} key={fiscalia.id}>
             <Card sx={{ maxWidth: 345 }}>
-              <div style={{ position: "relative" }}>
-                <a href={`https://www.google.com/maps/search/?api=1&query=${fiscalia.latitude},${fiscalia.longitude}`} target="_blank" >
+              <div style={{ position: "relative", paddingLeft: 30, paddingRight: 30, paddingBottom: 30, paddingTop: 30 }}>
+              {/* <a href={`#`} target="_blank" > */}
                 <CardMedia
                   component="img"
                   alt="Maps"
-                  height="140"
-                  image="https://www.elgrupoinformatico.com/static/Noticias/2022/05/google-maps-1200x675.jpg"
+                  height="180"
+                  image="https://www.mp.gob.gt/wp-content/themes/ministerio-publico/assets/img/MP_logo.png"
                 />
                 <div
                   style={{
@@ -40,9 +40,9 @@ function App(props) {
                   }}
                 >
                   {" "}
-                  Click para ver en Maps
+                  
                 </div>
-                </a>
+                {/* </a> */}
               </div>
 
               <CardContent>
@@ -55,7 +55,7 @@ function App(props) {
               </CardContent>
               <CardActions>
                 <Button variant="outlined" startIcon={<EditIcon />}>
-                  <Link to={`/form/${fiscalia.id}`} >Editar</Link>
+                  <Link to={`/form/${fiscalia.branchId}`} >Editar</Link>
                 </Button>
                 <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />}
                 onClick={() => deleteFiscalia(fiscalia)}>

@@ -14,8 +14,8 @@ export default function SearchAppBar() {
             <Link to={'/'}>
           <Avatar
             alt="MP Loo"
-            src="https://scontent.fgua1-3.fna.fbcdn.net/v/t1.6435-9/118566888_3869541703063158_4799742594718365293_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=973b4a&_nc_ohc=UplEzoEvaSAAX_Q8j_y&_nc_ht=scontent.fgua1-3.fna&oh=00_AT_peBVoNtcA-XpAIkG9YTvL3nK_EBWHF9ByYcNEAQTaow&oe=634621B8"
-            sx={{ width: 56, height: 56 }}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ2AWAHQqO1a78cuj9ire2iV6X1Tv9Hw7tgi9tkoBhxyGg_hMACEklUs5orlSBO84Qig4"
+            sx={{ width: 76, height: 76 }}
           />
           </Link>
 

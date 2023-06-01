@@ -11,13 +11,13 @@ export default function Fiscalia() {
   const [fiscalias, setFiscalias] = React.useState([]);
 
   const getAllFiscalia = async () => {
-    const response = await apiFiscalia.get("fiscalias");
+    const response = await apiFiscalia.get("branch");
     console.log({ getAll: response });
-    setFiscalias(response.data);
+    setFiscalias(response.data.branches);
   };
 
   const deleteFiscaliaServuce = async (id) => {
-    const response = await apiFiscalia.delete("fiscalias/" + id);
+    const response = await apiFiscalia.delete("branch/" + id);
     console.log({ delete: response });
     await getAllFiscalia();
   };
@@ -38,7 +38,7 @@ export default function Fiscalia() {
       confirmButtonText: "Si, quiero eliminarla!",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteFiscaliaServuce(item.id);
+        deleteFiscaliaServuce(item.branchId);
         Swal.fire("De acuerdo!", "La fiscalia ha sido eliminada", "success");
       }
     });

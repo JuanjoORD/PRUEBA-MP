@@ -20,14 +20,15 @@ export default function Fiscalia() {
 
   React.useEffect(() => {
     const getOneFiscalia = async (fiscaliaId) => {
-      const response = await apiFiscalia.get("fiscalias/" + fiscaliaId);
+      const response = await apiFiscalia.get("branch/" + fiscaliaId);
       console.log({ response });
-      if (response.data.id) {
-        setName(response.data.name);
-        setAddress(response.data.address);
-        setPhone(response.data.phone);
-        setLat(response.data.latitude);
-        setLong(response.data.longitude);
+      if (response.data.branch) {
+        const data = response.data.branch;
+        setName(data.name);
+        setAddress(data.address);
+        setPhone(data.phone);
+        setLat(data.latitude);
+        setLong(data.longitude);
       }
     };
 
@@ -41,47 +42,69 @@ export default function Fiscalia() {
   const handleClick = async (e) => {
     e.preventDefault();
     let fiscalia = { name, address, phone, latitude: lat, longitude: long };
+    let pathEndpoint = "branch";
+    let apiMethod = "post";
     if (pathId !== undefined && pathId !== null) {
-      fiscalia = {
-        ...fiscalia,
-        id: pathId,
-      };
+      pathEndpoint += `/${pathId}`;
+      apiMethod = "put";
     }
     console.log(fiscalia);
 
-    const response = await apiFiscalia.post("fiscalias", fiscalia);
-    console.log({intentoSave: response, xd: response.data})
-    if (response && response.data && response.data.id) {
+    const response = await apiFiscalia[apiMethod](pathEndpoint, fiscalia);
+    console.log({ intentoSave: response, xd: response.data });
+    if (
+      response &&
+      response.data
+    ) {
       if (pathId !== undefined && pathId !== null) {
-        Swal.fire("Se actualizo exitosamente!", "", "success");
+        if (response.data.success) {
+          Swal.fire("Se actualizo exitosamente!", "", "success");
+        } else {
+          Swal.fire("Que mal!", "No se pudo actualizar la fiscalia", "error");
+        }
       } else {
-        Swal.fire("Se registro exitosamente!", "", "success");
-        Swal.fire({
-          title: "Quieres registrar otra fiscalia?",
-          showDenyButton: true,
-          allowOutsideClick: false,
-          confirmButtonText: "Si, registrar otra",
-          denyButtonText: `No quiero registrar`,
-          icon: "question",
-        }).then((result) => {
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            Swal.fire("De acuerdo!", "Registremos otra fiscalia", "info");
-            setName("");
-            setAddress("");
-            setPhone("");
-            setLat("");
-            setLong("");
-          } else if (result.isDenied) {
-            navigate("/");
-            Swal.fire("Perfecto!", "", "info");
-          }
-        });
+        if (response.data.branch && response.data.branch.branchId) {
+          Swal.fire("Se registro exitosamente!", "", "success");
+          Swal.fire({
+            title: "Quieres registrar otra fiscalia?",
+            showDenyButton: true,
+            allowOutsideClick: false,
+            confirmButtonText: "Si, registrar otra",
+            denyButtonText: `No quiero registrar`,
+            icon: "question",
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire("De acuerdo!", "Registremos otra fiscalia", "info");
+              setName("");
+              setAddress("");
+              setPhone("");
+              setLat("");
+              setLong("");
+            } else if (result.isDenied) {
+              navigate("/");
+              Swal.fire("Perfecto!", "", "info");
+            }
+          });
+        } else {
+          Swal.fire(
+            "Que mal!",
+            "No se pudo agregar la nueva fiscalia",
+            "error"
+          );
+        }
       }
     } else {
       Swal.fire("Que mal!", "No se pudo registrar la nueva fiscalia", "error");
     }
   };
+
+  const onChangePhone = (e) => {
+    const re = /^[0-9\b]+$/;
+    if (e.target.value === '' || re.test(e.target.value)) {
+      setPhone(e.target.value)
+    }
+ }
 
   return (
     <Box
@@ -118,10 +141,10 @@ export default function Fiscalia() {
           variant="filled"
           fullWidth
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => onChangePhone(e)}
         />
 
-        <TextField
+        {/* <TextField
           id="outlined-helperText"
           label="Latitud"
           variant="filled"
@@ -139,7 +162,7 @@ export default function Fiscalia() {
           value={long}
           onChange={(e) => setLong(e.target.value)}
           style={{ width: "45%", marginLeft: "2%" }}
-        />
+        /> */}
 
         <Button
           variant="contained"
