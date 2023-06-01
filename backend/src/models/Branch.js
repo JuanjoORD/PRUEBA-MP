@@ -26,6 +26,12 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
         field: "Phone",
       },
+      active: {
+        type: DataTypes.TINYINT,
+        allowNull: true,
+        field: "Active",
+        defaultValue: 1
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: true,

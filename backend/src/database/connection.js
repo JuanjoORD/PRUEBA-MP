@@ -1,19 +1,15 @@
 const Sequelize = require('sequelize')
-
-/*const sequelize = new Sequelize('calzadaDbDesarrollo', 'root', 'celestukix2', {
-    host: '35.227.59.148',
-    dialect: 'mysql'
-});*/
+const config = require('../config');
 
 
-const sequelize = new Sequelize('pruebamp', 'devuser', 'devuser', {
-   host: 'localhost',
+const sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword, {
+   host: config.dbHost,
    dialect: 'mysql',
    port: 3306
 });
 
 const branchModel = require('../models/Branch');
-//invocación al modelo que tiene la estructura de la tabla.
+
 const Branch = branchModel(sequelize, Sequelize);
 
 sequelize.sync({ force: false }).then(() => {

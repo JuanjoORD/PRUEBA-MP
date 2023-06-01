@@ -3,7 +3,7 @@ const { Sequelize, Op } = require("sequelize");
 
 const listAll = async (req, res) => {
   try {
-    const branches = await Branch.findAll();
+    const branches = await Branch.findAll({ where: { active: 1 }});
     return res.status(200).json({ branches });
   } catch (error) {
     return res.status(500).send(error.message);
@@ -59,16 +59,26 @@ const updateOne = async (req, res) => {
 
 const deleteOne = async (req, res) => {
   try {
-    await Branch.destroy({
-      where: { branchId: req.params.branchId },
-    }).then((x) => {
-      //la promeso devulve 1 si la consulta se realiza con exito
-      if (x === 1) {
+
+    await Branch.sequelize.query('CALL logicdelete(:branchid)', {replacements: {branchid: req.params.branchId} }).then((x) => {
+      console.log({SP_RESP: x})
+
+      if (x.length > 0) {
         return res.status(200).json({ success: "Deleted successfuly" });
       } else {
         return res.status(400).json({ error: "Delete failed" });
       }
-    });
+    })
+
+    // await Branch.update({active: 0}, {
+    //   where: { branchId: req.params.branchId },
+    // }).then((x) => {
+    //   if (x.length > 0) {
+    //     return res.status(200).json({ success: "Deleted successfuly" });
+    //   } else {
+    //     return res.status(400).json({ error: "Delete failed" });
+    //   }
+    // });
   } catch (error) {
     return res.status(500).send(error.message);
   }
