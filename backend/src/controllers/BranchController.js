@@ -60,7 +60,7 @@ const updateOne = async (req, res) => {
 const deleteOne = async (req, res) => {
   try {
 
-    await Branch.sequelize.query('CALL logicdelete(:branchid)', {replacements: {branchid: req.params.branchId} }).then((x) => {
+    await Branch.sequelize.query('EXEC logicdelete @branch_id = :branchid', {replacements: {branchid: req.params.branchId} }).then((x) => {
       console.log({SP_RESP: x})
 
       if (x.length > 0) {

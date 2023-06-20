@@ -4,8 +4,8 @@ const config = require('../config');
 
 const sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword, {
    host: config.dbHost,
-   dialect: 'mysql',
-   port: 3306
+   dialect: 'mssql',
+   port: '1433'
 });
 
 const branchModel = require('../models/Branch');
