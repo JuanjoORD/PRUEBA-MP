@@ -57,9 +57,9 @@ function App(props) {
                 <Button variant="outlined" startIcon={<EditIcon />}>
                   <Link to={`/form/${fiscalia.branchId}`} >Editar</Link>
                 </Button>
-                <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />}
+                <Button style={{ color: 'red'}} variant="outlined" startIcon={<DeleteIcon />}
                 onClick={() => deleteFiscalia(fiscalia)}>
-                  Eliminar
+                  Cancelar
                 </Button>
               </CardActions>
             </Card>
